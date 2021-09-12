@@ -1,0 +1,125 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    compileSdk 30
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    defaultConfig {
+        applicationId "tin.thurein.dindin"
+        minSdk globalConfiguration["minSdkVersion"]
+        targetSdk globalConfiguration["targetSdkVersion"]
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "tin.thurein.dindin.CustomTestRunner"
+    }
+
+    viewBinding {
+        enabled = true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+        animationsDisabled = true
+    }
+}
+
+dependencies {
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(':data')
+    implementation project(':core')
+
+    implementation rootProject.ext.kotlinStdlib
+    implementation rootProject.ext.coreKtx
+    implementation rootProject.ext.appcompat
+    implementation rootProject.ext.googleMaterial
+    implementation rootProject.ext.constraintLayout
+
+    implementation rootProject.ext.javaxAnnotation
+    implementation rootProject.ext.javaxInject
+
+    // dependency injection
+    implementation rootProject.ext.hiltAndroid
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    kapt rootProject.ext.hiltCompiler
+
+    // Reactive Programming Libraries
+    implementation rootProject.ext.rxAndroid
+
+    // For instrumentation tests
+    androidTestImplementation  rootProject.ext.hiltTest
+    kaptAndroidTest rootProject.ext.hiltCompiler
+
+    // For local unit tests
+    testImplementation rootProject.ext.hiltTest
+    kaptTest rootProject.ext.hiltCompiler
+
+    // glide
+    implementation rootProject.ext.glide
+    implementation rootProject.ext.glideCompiler
+
+    implementation rootProject.ext.androidxFragment
+    implementation rootProject.ext.rxComponent
+
+    // retrofit
+    implementation rootProject.ext.retrofit
+    implementation rootProject.ext.retrofitGsonConverter
+    implementation rootProject.ext.retrofitRxJava2Adapter
+    implementation rootProject.ext.retrofitLoggingInterceptors
+
+    // recyclerview
+    implementation rootProject.ext.recyclerview
+
+    implementation rootProject.ext.rxBus
+
+    // test
+    testImplementation rootProject.ext.junit
+    androidTestImplementation rootProject.ext.junitExt
+    androidTestImplementation rootProject.ext.espressoCore
+    androidTestImplementation rootProject.ext.espressoContrib
+    testImplementation rootProject.ext.mockitoDex
+    androidTestImplementation rootProject.ext.mockitoDex
+    testImplementation rootProject.ext.androidXCore
+    androidTestImplementation rootProject.ext.androidXCore
+    testImplementation rootProject.ext.testRule
+    androidTestImplementation rootProject.ext.testRule
+
+    testImplementation rootProject.ext.jfixture
+    androidTestImplementation rootProject.ext.jfixture
+
+    androidTestImplementation rootProject.ext.mockWebServer
+}
+
+kapt {
+    javacOptions {
+        // These options are normally set automatically via the Hilt Gradle plugin, but we
+        // set them manually to workaround a bug in the Kotlin 1.5.20
+        option("-Adagger.fastInit=ENABLED")
+        option("-Adagger.hilt.android.internal.disableAndroidSuperclassValidation=true")
+    }
+}
+
+hilt {
+    enableTransformForLocalTests = true
+}

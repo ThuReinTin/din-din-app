@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">din-din-app</string>
+    <string name="seconds">%d s</string>
+    <string name="accept">Accept</string>
+    <string name="expire">Expire</string>
+    <string name="search_for_item">Search for item</string>
+
+    <string name="order_id">#%d</string>
+    <string name="at">at&#160;</string>
+    <string name="n_items">%d items</string>
+    <string name="addon_quantity_title">x%d %s</string>
+    <string name="incoming">Incoming</string>
+    <string name="mcc_makan_place">MCC Makan Place</string>
+    <string name="auto_reject">Auto Reject&#160;</string>
+    <string name="order_count">+%d</string>
+</resources>

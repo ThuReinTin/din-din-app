@@ -1,0 +1,95 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    compileSdk 30
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    defaultConfig {
+        minSdk globalConfiguration["minSdkVersion"]
+        targetSdk globalConfiguration["targetSdkVersion"]
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(':core')
+
+    implementation rootProject.ext.coreKtx
+    implementation rootProject.ext.appcompat
+    implementation rootProject.ext.googleMaterial
+    implementation rootProject.ext.constraintLayout
+
+    implementation rootProject.ext.javaxAnnotation
+    implementation rootProject.ext.javaxInject
+
+    // Reactive Programming Libraries
+    implementation rootProject.ext.rxAndroid
+    implementation rootProject.ext.rxJava
+
+    // dependency injection
+    implementation rootProject.ext.hiltAndroid
+    kapt rootProject.ext.hiltCompiler
+
+    // For instrumentation tests
+    androidTestImplementation  rootProject.ext.hiltTest
+    kaptAndroidTest rootProject.ext.hiltCompiler
+
+    // For local unit tests
+    testImplementation rootProject.ext.hiltTest
+    kaptTest rootProject.ext.hiltCompiler
+
+    // retrofit
+    implementation rootProject.ext.retrofit
+    implementation rootProject.ext.retrofitGsonConverter
+    implementation rootProject.ext.retrofitRxJava2Adapter
+    implementation rootProject.ext.retrofitLoggingInterceptors
+
+    testImplementation rootProject.ext.junit
+    androidTestImplementation rootProject.ext.junitExt
+    androidTestImplementation rootProject.ext.espressoCore
+    androidTestImplementation rootProject.ext.espressoContrib
+    testImplementation rootProject.ext.mockitoDex
+    androidTestImplementation rootProject.ext.mockitoDex
+    testImplementation rootProject.ext.androidXCore
+    androidTestImplementation rootProject.ext.androidXCore
+    testImplementation rootProject.ext.testRule
+    androidTestImplementation rootProject.ext.testRule
+
+    // androidx preference
+    implementation rootProject.ext.androidxPreference
+}
+
+kapt {
+    javacOptions {
+        // These options are normally set automatically via the Hilt Gradle plugin, but we
+        // set them manually to workaround a bug in the Kotlin 1.5.20
+        option("-Adagger.fastInit=ENABLED")
+        option("-Adagger.hilt.android.internal.disableAndroidSuperclassValidation=true")
+    }
+}
